@@ -1,6 +1,8 @@
-﻿namespace HomeStation.Domain.Common.Interfaces;
+﻿using System.Windows.Input;
+
+namespace HomeStation.Domain.Common.Interfaces;
 
 public interface ICommandDispatcher
 {
-    Task<TCommandResult> Dispatch<TCommand, TCommandResult>(TCommand command, CancellationToken cancellationToken);
+    Task Dispatch<TCommand>(TCommand command, CancellationToken cancellationToken) where TCommand : class, ICommand;
 }

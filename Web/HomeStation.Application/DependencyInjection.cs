@@ -1,7 +1,6 @@
-﻿using HomeStation.Application.Common.Interfaces;
+﻿using System.Reflection;
 using HomeStation.Domain.Common.CQRS;
 using HomeStation.Domain.Common.Interfaces;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace HomeStation.Application;
 
@@ -9,28 +8,26 @@ public static partial class DependencyInjection
 {
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
-        services.TryAddSingleton<ICommandDispatcher, CommandDispatcher>();
-        services.TryAddSingleton<IQueryDispatcher, QueryDispatcher>();
+        Assembly assembly = Assembly.GetExecutingAssembly();
+        
+        services.AddScoped<ICommandDispatcher, CommandDispatcher>();
+        services.AddScoped<IQueryDispatcher, QueryDispatcher>();
         
         services.Scan(selector =>
         {
-            selector.FromCallingAssembly()
+            selector.FromAssemblies(assembly)
                 .AddClasses(filter =>
                 {
                     filter.AssignableTo(typeof(IQueryHandler<,>));
-                }).AsImplementedInterfaces()
-                .WithSingletonLifetime();
+                })
+                .AsImplementedInterfaces()
+                .WithScopedLifetime();
         });
         
-        services.Scan(selector =>
-        {
-            selector.FromCallingAssembly()
-                .AddClasses(filter =>
-                {
-                    filter.AssignableTo(typeof(ICommandHandler<,>));
-                }).AsImplementedInterfaces()
-                .WithSingletonLifetime();
-        });
+        services.Scan(s => s.FromAssemblies(assembly)
+            .AddClasses(c => c.AssignableTo(typeof(ICommandHandler<>)))
+            .AsImplementedInterfaces()
+            .WithScopedLifetime());
         
         return services;
     }

@@ -8,10 +8,11 @@ public class CommandDispatcher : ICommandDispatcher
     
     public CommandDispatcher(IServiceProvider serviceProvider) => _serviceProvider = serviceProvider;
 
-    public Task<TCommandResult> Dispatch<TCommand, TCommandResult>(TCommand command, CancellationToken cancellationToken)
+    public async Task Dispatch<TCommand>(TCommand command, CancellationToken cancellationToken)
+        where TCommand : class, ICommand
     {
-        var handler = _serviceProvider.GetRequiredService<ICommandHandler<TCommand, TCommandResult>>();
+        ICommandHandler<TCommand> handler = _serviceProvider.GetRequiredService<ICommandHandler<TCommand>>();
 
-        return handler.Handle(command, cancellationToken);
+        await handler.Handle(command, cancellationToken);
     }
 }

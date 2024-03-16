@@ -72,14 +72,14 @@ void mqtt::start()
 void mqtt::send(const char *topic, data_t* data)
 {    
     // Worst case scenario char (obviously data is wrong or user is dead)
-    char *buffer = (char*)calloc(110, sizeof(buffer));
+    char *buffer = (char*)calloc(140, sizeof(buffer));
 
     // PMS data can be null thats why we potentially can pass an empty string
-    sprintf(buffer, "{\"temperature\": %0.1lf, \"humidity\": %0.1lf, \"pressure\": %0.1lf, \"pm1.0\": \"%s\", \"pm2.5\": \"%s\", \"pm10\": \"%s\"}",
-     data->temperature, data->humidity, data->pressure, 
-     std::to_string(data->pm1_0).c_str(), std::to_string(data->pm2_5).c_str(), std::to_string(data->pm10).c_str());
-
-    int msg_id = esp_mqtt_client_publish(this->client, topic, buffer, 106, 0, 0);
+    sprintf(buffer, "{\"deviceid\": 1, \"temperature\": %0.1lf, \"humidity\": %0.1lf, \"pressure\": %0.1lf, \"pm1_0\": \"%s\", \"pm2_5\": \"%s\", \"pm10\": \"%s\"}",
+    data->temperature, data->humidity, data->pressure, 
+    std::to_string(data->pm1_0).c_str(), std::to_string(data->pm2_5).c_str(), std::to_string(data->pm10).c_str());
+    
+    int msg_id = esp_mqtt_client_publish(this->client, topic, buffer, strlen(buffer), 0, 0);
     ESP_LOGI(TAG, "binary sent with msg_id=%d", msg_id);
     
     free(buffer);

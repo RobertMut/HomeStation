@@ -3,7 +3,7 @@ using HomeStation.Domain.Common.Entities;
 
 namespace HomeStation.Application.Common.Interfaces;
 
-public interface IUnitOfWork
+public interface IUnitOfWork : IDisposable
 {
     /// <summary>
     /// Air Quality repository getter

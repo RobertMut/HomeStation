@@ -1,11 +1,14 @@
-﻿using HomeStation.Domain.Common.Entities;
+﻿using HomeStation.Application.Common.Interfaces;
+using HomeStation.Domain.Common.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace HomeStation.Infrastructure.Persistence;
 
-public class AirDbContext : DbContext
+public class AirDbContext : DbContext, IAirDbContext
 {
     public AirDbContext(DbContextOptions options) : base(options) { }
+
+    public AirDbContext() : base() {}
     
     /// <summary>
     /// Climate readings

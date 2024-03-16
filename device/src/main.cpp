@@ -20,7 +20,7 @@
 #include "main.h"
 
 #define DATA_QUEUE_SIZE 10;
-#define TOPIC "homestation"
+#define TOPIC "air/readings"
 
 TaskHandle_t mqtt_handle;
 TaskHandle_t pms_handle;
@@ -174,9 +174,10 @@ static void mqtt_task(void *arg){
     esp_mqtt_client_config_t* mqtt_cfg = new esp_mqtt_client_config_t();
     mqtt_cfg->broker = {
         .address = {
-            .uri = "mqtt://192.168.1.112:1883",
-            .hostname = "192.168.1.112",
-            .port = 1883
+            .uri = "mqtt://192.168.1.217:1884",
+            .hostname = "192.168.1.217",
+            .path = "/mqtt",
+            .port = 1884
         }
     };
     mqtt_cfg->credentials = {};
