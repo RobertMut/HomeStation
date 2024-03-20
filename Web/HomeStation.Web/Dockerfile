@@ -2,7 +2,7 @@
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 USER app
-WORKDIR /app
+WORKDIR "/home/app"
 EXPOSE $HTTP_PORT
 EXPOSE $SSL_PORT
 EXPOSE $MQTT__Port
@@ -16,19 +16,18 @@ RUN npm install -g @angular/cli
 
 FROM with-node AS build
 ARG BUILD_CONFIGURATION=Release
-WORKDIR /src
-COPY ["HomeStation.Web/HomeStation.Web.csproj", "HomeStation.Web/"]
-COPY ["web.client/web.client.esproj", "web.client/"]
+COPY . "/home/app/src"
+WORKDIR "/home/app/src"
+RUN ls -la /home/app/src
 RUN dotnet restore "./HomeStation.Web/HomeStation.Web.csproj"
-COPY . .
-WORKDIR "/src/HomeStation.Web"
-RUN dotnet build "./HomeStation.Web.csproj" -c $BUILD_CONFIGURATION -o /app/build
+RUN dotnet build "./HomeStation.Web/HomeStation.Web.csproj" -c $BUILD_CONFIGURATION -o /home/app/build
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./HomeStation.Web.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "./HomeStation.Web/HomeStation.Web.csproj" -c $BUILD_CONFIGURATION -o /home/app/publish /p:UseAppHost=false
 
 FROM base AS final
-WORKDIR /app
-COPY --from=publish /app/publish .
+WORKDIR "/home/app/publish"
+COPY --from=publish /home/app/publish .
 ENTRYPOINT ["dotnet", "HomeStation.Web.dll"]
+RUN ng serve

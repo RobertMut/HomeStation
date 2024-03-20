@@ -32,10 +32,8 @@ public class Repository<TEntity> where TEntity : class
     /// <summary>
     /// Gets entities by filter
     /// </summary>
-    /// <param name="filter">Expression filter</param>
-    /// <param name="orderBy">Order by function</param>
+    /// <param name="predicate">Expression filter</param>
     /// <param name="includeProperties">Properties</param>
-    /// <param name="cancellationToken">CancellationToken</param>
     /// <returns>IEnumerable of entities</returns>
     public virtual IQueryable<TEntity> Get(Expression<Func<TEntity, bool>> predicate, params Expression<Func<TEntity, object>>[] includeProperties)
     {
@@ -45,6 +43,26 @@ public class Repository<TEntity> where TEntity : class
         {
             query = query.Where(predicate);
         }
+
+        if (includeProperties != null)
+        {
+            foreach (var includeProperty in includeProperties)
+            {
+                query = query.Include(includeProperty);
+            }
+        }
+
+        return query;
+    }
+    
+    /// <summary>
+    /// Gets all entities
+    /// </summary>
+    /// <param name="includeProperties">Properties</param>
+    /// <returns>IEnumerable of entities</returns>
+    public virtual IQueryable<TEntity> GetAll(params Expression<Func<TEntity, object>>[] includeProperties)
+    {
+        var query = _dbSet.AsQueryable();
 
         if (includeProperties != null)
         {

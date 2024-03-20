@@ -21,6 +21,6 @@ public class MqttAirController : MqttBaseController
     [MqttRoute("readings")]
     public async Task Readings([FromPayload] SaveReadingsCommand command)
     {
-        await _commandDispatcher.Dispatch(command, new CancellationToken());
+        await _commandDispatcher.Dispatch(command, new CancellationToken(), ClientId);
     }
 }

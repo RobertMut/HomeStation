@@ -5,15 +5,14 @@ using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using MySqlConnector;
-using Npgsql;
 
 namespace HomeStation.Infrastructure.Helpers;
 
 public class DatabaseHelper //todo refactor in future
 {
     private const string MySqlCheck = @"SELECT count(*)
-                                FROM information_schema.tables
-                                WHERE table_name = '%Climate%'";
+                                    FROM information_schema.tables
+                                    WHERE table_name LIKE '%Climate%'";
 
     private const string SqlServerCheck = @"SELECT IIF(COUNT(TABLE_NAME) = 0, 0, 1)
                                             FROM   INFORMATION_SCHEMA.TABLES
@@ -28,11 +27,11 @@ public class DatabaseHelper //todo refactor in future
             case DatabaseType.MySql:
                 try
                 {
-                    using (var connection = new MySqlConnection()
-                           {
-                               ConnectionString = options.ConnectionString
-                           })
-                    using (MySqlCommand sqlCommand = new MySqlCommand(MySqlCheck, connection))
+                    await using (var connection = new MySqlConnection
+                                 {
+                                     ConnectionString = options.ConnectionString
+                                 })
+                    await using (MySqlCommand sqlCommand = new MySqlCommand(MySqlCheck, connection))
                     {
                         await connection.OpenAsync();
                         count = Convert.ToInt32(sqlCommand.ExecuteScalar());
@@ -53,8 +52,8 @@ public class DatabaseHelper //todo refactor in future
 
                 try
                 {
-                    using (SqlConnection connection = new SqlConnection(options.ConnectionString))
-                    using (SqlCommand command = new SqlCommand(SqlServerCheck, connection))
+                    await using (SqlConnection connection = new SqlConnection(options.ConnectionString))
+                    await using (SqlCommand command = new SqlCommand(SqlServerCheck, connection))
                     {
                         await connection.OpenAsync();
                         count = Convert.ToInt32(command.ExecuteScalar());

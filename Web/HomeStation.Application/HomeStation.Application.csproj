@@ -15,13 +15,14 @@
     </ItemGroup>
 
     <ItemGroup>
+      <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.4" />
       <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.2" />
       <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
       <PackageReference Include="Scrutor" Version="4.2.2" />
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Homestation.Domain\Homestation.Domain.csproj" />
+      <ProjectReference Include="..\HomeStation.Domain\HomeStation.Domain.csproj" />
     </ItemGroup>
 
     <ItemGroup>
@@ -34,6 +35,10 @@
 
     <ItemGroup>
       <Content Remove="obj\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Common\Extensions\" />
     </ItemGroup>
 
 </Project>

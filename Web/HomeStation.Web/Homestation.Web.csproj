@@ -31,7 +31,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Homestation.Application\Homestation.Application.csproj" />
+    <ProjectReference Include="..\HomeStation.Application\HomeStation.Application.csproj" />
     <ProjectReference Include="..\HomeStation.Infrastructure\HomeStation.Infrastructure.csproj" />
     <ProjectReference Include="..\web.client\web.client.esproj">
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
