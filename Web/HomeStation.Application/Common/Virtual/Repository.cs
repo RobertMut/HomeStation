@@ -35,24 +35,16 @@ public class Repository<TEntity> where TEntity : class
     /// <param name="predicate">Expression filter</param>
     /// <param name="includeProperties">Properties</param>
     /// <returns>IEnumerable of entities</returns>
-    public virtual IQueryable<TEntity> Get(Expression<Func<TEntity, bool>> predicate, params Expression<Func<TEntity, object>>[] includeProperties)
+    public virtual IQueryable<TEntity> Get(Func<IQueryable<TEntity>, IQueryable<TEntity>> func)
     {
         var query = _dbSet.AsQueryable();
 
-        if (predicate != null)
+        if (func != null)
         {
-            query = query.Where(predicate);
+            query = func(query);
         }
 
-        if (includeProperties != null)
-        {
-            foreach (var includeProperty in includeProperties)
-            {
-                query = query.Include(includeProperty);
-            }
-        }
-
-        return query;
+        return query.AsNoTracking();
     }
     
     /// <summary>
@@ -81,21 +73,18 @@ public class Repository<TEntity> where TEntity : class
     /// <param name="filter">Expression filter</param>
     /// <param name="cancellationToken">CancellationToken</param>
     /// <returns>Entity</returns>
-    public virtual async Task<TEntity?> GetObjectBy(Expression<Func<TEntity?, bool>> filter, CancellationToken cancellationToken = default, params Expression<Func<TEntity, object>>[] includeProperties)
+    public virtual async Task<TEntity?> GetObjectBy(Func<TEntity?, bool> func,
+        Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null,
+        CancellationToken cancellationToken = default)
     {
-          var query = _dbSet.AsQueryable().Where(filter);
-          
-          if (includeProperties != null)
-          {
-              foreach (var includeProperty in includeProperties)
-              {
-                  query = query.Include(includeProperty);
-              }
-          }
+        IQueryable<TEntity> query = _dbSet.AsQueryable();
 
-          query.AsNoTracking();
-          
-          return await query.FirstOrDefaultAsync(cancellationToken);
+        if (include != null)
+        {
+            query = include(query);
+        }
+        
+        return query.FirstOrDefault(func);
     }
 
     /// <summary>

@@ -17,7 +17,7 @@ public class ApproveDeviceCommandHandler : ICommandHandler<ApproveDeviceCommand>
     {
         using (_unitOfWork)
         {
-            Device? device = await _unitOfWork.DeviceRepository.GetObjectBy(x => x.Id == command.Id && x.Name == command.Name, cancellationToken);
+            Device? device = await _unitOfWork.DeviceRepository.GetObjectBy(x => x.Id == command.Id && x.Name == command.Name, cancellationToken: cancellationToken);
 
             if (device == null)
             {

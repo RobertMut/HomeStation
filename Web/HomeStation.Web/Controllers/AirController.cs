@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace HomeStation.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class AirController : ControllerBase
     {
         private readonly IQueryDispatcher _queryDispatcher;

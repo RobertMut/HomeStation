@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace HomeStation.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class DeviceController : ControllerBase
     {
         private readonly IQueryDispatcher _queryDispatcher;

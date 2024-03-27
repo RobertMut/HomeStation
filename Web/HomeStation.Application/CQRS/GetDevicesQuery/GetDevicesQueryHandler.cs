@@ -16,12 +16,8 @@ public class GetDevicesQueryHandler : IQueryHandler<GetDevicesQuery, IEnumerable
     
     public async Task<IEnumerable<DeviceWebModel>> Handle(GetDevicesQuery query, CancellationToken cancellationToken)
     {
-        IQueryable<Device> devices;
-        
-        using (_unitOfWork)
-        {
-            devices = _unitOfWork.DeviceRepository.GetAll();
-        }
+        using var unitOfWork = _unitOfWork;
+        IQueryable<Device> devices = unitOfWork.DeviceRepository.GetAll();
         
         return devices.Select(x => new DeviceWebModel()
         {

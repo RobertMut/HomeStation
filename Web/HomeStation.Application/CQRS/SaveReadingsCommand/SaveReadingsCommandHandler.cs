@@ -18,7 +18,7 @@ public class SaveReadingsCommandHandler : ICommandHandler<SaveReadingsCommand>
     {     
         using (_unitOfWork)
         {
-            Device? device = await _unitOfWork.DeviceRepository.GetObjectBy(x => x.Name == clientId, cancellationToken);
+            Device? device = await _unitOfWork.DeviceRepository.GetObjectBy(x => x.Name == clientId, cancellationToken: cancellationToken);
             await CheckDevice(device, clientId, cancellationToken);
 
             (Climate, Quality) entities = ConstructEntities(command, device.Id);

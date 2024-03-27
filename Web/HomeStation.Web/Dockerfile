@@ -30,4 +30,3 @@ FROM base AS final
 WORKDIR "/home/app/publish"
 COPY --from=publish /home/app/publish .
 ENTRYPOINT ["dotnet", "HomeStation.Web.dll"]
-RUN ng serve

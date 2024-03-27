@@ -202,7 +202,7 @@ static void mqtt_task(void *arg){
         mqtt_client->send(TOPIC, data);
         mqtt_client->stop();
         intertask::clear_data();
-        vTaskDelay(20000/portTICK_PERIOD_MS);
+        vTaskDelay(90000/portTICK_PERIOD_MS);
     }
 }
 
