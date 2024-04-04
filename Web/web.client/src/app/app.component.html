@@ -1,22 +1,11 @@
-﻿<h1 id="tableLabel">Homestation</h1>
-<router-outlet></router-outlet>
-<!--<p>This component demonstrates fetching data from the server.</p>-->
+﻿<nav mat-tab-nav-bar>
+  <a mat-tab-link
+     *ngFor="let link of links"
+     [routerLink]="link.link"
+     routerLinkActive #rla="routerLinkActive"
+     [active]="rla.isActive">
+    {{link.label}}
+  </a>
+</nav>
+<router-outlet ></router-outlet>
 
-<!--<p *ngIf="!readings"><em>Loading... Please refresh once the ASP.NET backend has started. See <a href="https://aka.ms/jspsintegrationangular">https://aka.ms/jspsintegrationangular</a> for more details.</em></p>-->
-
-<!--<table *ngIf="readings">-->
-<!--    <thead>-->
-<!--        <tr>-->
-<!--            <th>Temp</th>-->
-<!--            <th>Hum</th>-->
-<!--            <th>Pressure</th>-->
-<!--        </tr>-->
-<!--    </thead>-->
-<!--    <tbody>-->
-<!--        <tr *ngFor="let reading of readings">-->
-<!--            <td>{{ reading.temperature }}</td>-->
-<!--            <td>{{ reading.pressure }}</td>-->
-<!--            <td>{{ reading.humidity }}</td>-->
-<!--        </tr>-->
-<!--    </tbody>-->
-<!--</table>-->

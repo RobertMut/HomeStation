@@ -1,6 +1,7 @@
 using HomeStation.Application;
 using HomeStation.Application.Common.Options;
 using HomeStation.Infrastructure;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Options;
 using MQTTnet.AspNetCore;
 using MQTTnet.AspNetCore.Routing;
@@ -23,11 +24,11 @@ builder.Services.AddApplication();
 
 builder.Services.AddControllers();
 builder.Services.AddMqttControllers();
-
 var app = builder.Build();
 
 app.UseDefaultFiles();
 app.UseStaticFiles();
+app.UseRouting();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -61,6 +62,9 @@ app.UseMqttServer(server =>
     server.StartAsync();
 });
 
-app.MapFallbackToFile("/index.html");
+app.MapFallbackToFile("/index.html", new StaticFileOptions()
+{
+    ServeUnknownFileTypes = true
+});
 
 app.Run();

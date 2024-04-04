@@ -6,13 +6,16 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>778f4f19-782f-449b-80a9-4d430bf880f5</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-    <SpaRoot>..\web.client</SpaRoot>
-    <SpaProxyLaunchCommand>npm start</SpaProxyLaunchCommand>
-    <SpaProxyServerUrl>https://localhost:5216</SpaProxyServerUrl>
     <AssemblyName>HomeStation.Web</AssemblyName>
     <RootNamespace>HomeStation</RootNamespace>
   </PropertyGroup>
-
+  
+  <PropertyGroup>
+    <SpaRoot>..\web.client\</SpaRoot>
+    <SpaProxyLaunchCommand>npm run start</SpaProxyLaunchCommand>
+    <SpaProxyServerUrl>https://localhost:5216</SpaProxyServerUrl>
+  </PropertyGroup>
+  
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.SpaProxy">
@@ -37,5 +40,4 @@
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
   </ItemGroup>
-
 </Project>

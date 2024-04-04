@@ -1,32 +1,29 @@
 #See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
-USER app
-WORKDIR "/home/app"
-EXPOSE $HTTP_PORT
-EXPOSE $SSL_PORT
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS base
+WORKDIR "/app"
+EXPOSE $WEB_SSL_PORT
+EXPOSE $WEB_HTTP_PORT
+ENV SSL_PORT=5215
+ENV HTTP_PORT=5216
 EXPOSE $MQTT__Port
-
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS with-node
 RUN apt-get update
 RUN apt-get install curl
-RUN curl -sL https://deb.nodesource.com/setup_20.x | bash
+RUN curl -sL https://deb.nodesource.com/setup_20.x | bash -
 RUN apt-get -y install nodejs
 RUN npm install -g @angular/cli
 
-FROM with-node AS build
+FROM base AS publish
+COPY . "/app/src"
+WORKDIR "/app/src"
 ARG BUILD_CONFIGURATION=Release
-COPY . "/home/app/src"
-WORKDIR "/home/app/src"
-RUN ls -la /home/app/src
 RUN dotnet restore "./HomeStation.Web/HomeStation.Web.csproj"
-RUN dotnet build "./HomeStation.Web/HomeStation.Web.csproj" -c $BUILD_CONFIGURATION -o /home/app/build
+RUN dotnet publish "./HomeStation.Web/HomeStation.Web.csproj" -c $BUILD_CONFIGURATION -o "/app/publish" --no-restore
+RUN ls -la /app
+RUN ls -la /app/publish
 
-FROM build AS publish
-ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./HomeStation.Web/HomeStation.Web.csproj" -c $BUILD_CONFIGURATION -o /home/app/publish /p:UseAppHost=false
-
-FROM base AS final
-WORKDIR "/home/app/publish"
-COPY --from=publish /home/app/publish .
+FROM mcr.microsoft.com/dotnet/aspnet:8.0
+WORKDIR "/app"
+COPY --from=publish "/app/publish" .
+RUN ls -la /app
 ENTRYPOINT ["dotnet", "HomeStation.Web.dll"]

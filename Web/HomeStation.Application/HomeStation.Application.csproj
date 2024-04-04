@@ -39,6 +39,7 @@
 
     <ItemGroup>
       <Folder Include="Common\Extensions\" />
+      <Folder Include="CQRS\ReadingsQuery\" />
     </ItemGroup>
 
 </Project>

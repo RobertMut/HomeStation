@@ -1,6 +1,5 @@
 using HomeStation.Application.CQRS.ApproveDeviceCommand;
 using HomeStation.Application.CQRS.GetDevicesQuery;
-using HomeStation.Application.CQRS.GetReadingsQuery;
 using HomeStation.Domain.Common.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,9 +19,9 @@ namespace HomeStation.Controllers
         }
 
         [HttpGet]
-        public async Task GetDevices()
+        public async Task<IEnumerable<DeviceWebModel>> GetDevices()
         {
-            await _queryDispatcher.Dispatch<GetDevicesQuery, IEnumerable<DeviceWebModel>>(new GetDevicesQuery(),
+            return await _queryDispatcher.Dispatch<GetDevicesQuery, IEnumerable<DeviceWebModel>>(new GetDevicesQuery(),
                 new CancellationToken());
         }
 

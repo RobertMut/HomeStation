@@ -1,11 +1,21 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import {MainComponent} from "./main/main.component";
+import {TemperatureComponent} from "./temperature/temperature.component";
+import {PressureComponent} from "./pressure/pressure.component";
+import {AirQualityComponent} from "./air-quality/air-quality.component";
 
 const routes: Routes = [
   {
-    path: '',
-    component: MainComponent
+    path: 'temperature-humidity',
+    component: TemperatureComponent
+  },
+  {
+    path: 'pressure',
+    component: PressureComponent
+  },
+  {
+    path: 'air-quality',
+    component: AirQualityComponent
   }
 ];
 
