@@ -75,16 +75,9 @@ public class SaveReadingsCommandHandler : ICommandHandler<SaveReadingsCommand>
         return (climate, quality);  
     }
 
-    private static Reading GetCurrentReading()
-    {
-        DateTimeOffset dateTimeOffset = DateTimeOffset.Now;
-
-        return new Reading()
+    private static Reading GetCurrentReading() =>
+        new()
         {
-            Date = dateTimeOffset,
-            Day = dateTimeOffset.Day,
-            Month = dateTimeOffset.Month,
-            Week = ISOWeek.GetWeekOfYear(dateTimeOffset.DateTime)
+            Date = DateTimeOffset.Now,
         };
-    }
 }

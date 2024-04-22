@@ -22,8 +22,9 @@ builder.Services.Configure<MQTTOptions>(builder.Configuration.GetSection(MQTTOpt
 await builder.Services.AddInfrastructure();
 builder.Services.AddApplication();
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddNewtonsoftJson();
 builder.Services.AddMqttControllers();
+
 var app = builder.Build();
 
 app.UseDefaultFiles();

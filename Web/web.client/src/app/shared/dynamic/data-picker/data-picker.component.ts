@@ -1,5 +1,5 @@
 import {Component, CUSTOM_ELEMENTS_SCHEMA, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {AsyncPipe, CommonModule, NgFor } from '@angular/common';
 import {Device} from "../../interfaces/device";
 import {FormControl, FormGroup, FormsModule, Validators, ReactiveFormsModule} from '@angular/forms';
 import {MatFormFieldModule} from '@angular/material/form-field';
@@ -13,17 +13,21 @@ import {JsonPipe} from '@angular/common';
 import {DetailLevel, Details} from "../../detail-level";
 import {DataForm} from "../../interfaces/data-form";
 import {ReadingType} from "../../reading-type";
+import {DevicesService} from "../../services/devices.service";
+import { Observable } from 'rxjs/internal/Observable';
+import {BehaviorSubject, delay, of, startWith } from 'rxjs';
 
 @Component({
   selector: 'app-data-picker',
   templateUrl: './data-picker.component.html',
   styleUrl: './data-picker.component.css',
-  imports: [MatFormFieldModule, MatSelectModule, MatInputModule, FormsModule, MatButtonModule, MatDatepickerModule, FormsModule, ReactiveFormsModule, JsonPipe],
+  imports: [MatFormFieldModule, MatSelectModule, MatInputModule, FormsModule, MatButtonModule, MatDatepickerModule,
+    FormsModule, ReactiveFormsModule, JsonPipe, CommonModule, NgFor, AsyncPipe],
   standalone: true,
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [provideNativeDateAdapter()],
 })
-export class DataPickerComponent {
+export class DataPickerComponent implements OnInit{
   @Output() onSubmit: EventEmitter<DataForm>;
 
   range = new FormGroup({
@@ -32,7 +36,7 @@ export class DataPickerComponent {
   });
 
   numberFormControl = new FormControl('', [Validators.required]);
-  protected devices: Device[] = [];
+  protected devices: Observable<Array<Device>> = of([]);
 
   protected details: Details[] = [
     {value: DetailLevel[DetailLevel.Detailed]},
@@ -42,25 +46,24 @@ export class DataPickerComponent {
 
   protected form: DataForm;
 
-  constructor(private http: HttpClient) {
+  constructor(private service: DevicesService) {
     this.onSubmit = new EventEmitter();
     this.form = {} as DataForm;
+  }
+
+  ngOnInit(): void {
     this.getDevices();
+  }
+
+  getDevices() {
+    this.devices = this.service.getDevices().pipe(
+      delay(2000),
+      startWith([])
+    );
   }
 
   publishValues(){
     this.onSubmit.emit(this.form);
-  }
-
-  private getDevices() {
-    this.http.get<Device[]>('/api/Device').subscribe(
-      (result) => {
-        this.devices = result;
-      },
-      (error) => {
-        console.error(error);
-      }
-    );
   }
 }
 

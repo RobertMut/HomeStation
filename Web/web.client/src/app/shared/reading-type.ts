@@ -3,7 +3,3 @@ export enum ReadingType {
   Climate,
   Complete
 }
-
-export interface Reading {
-  value: string
-}

@@ -1,4 +1,4 @@
-using HomeStation.Application.CQRS.ApproveDeviceCommand;
+using HomeStation.Application.CQRS.ApproveRevokeDeviceCommand;
 using HomeStation.Application.CQRS.GetDevicesQuery;
 using HomeStation.Domain.Common.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -25,10 +25,12 @@ namespace HomeStation.Controllers
                 new CancellationToken());
         }
 
-        [HttpPost("approve")]
-        public async Task Approve([FromBody] ApproveDeviceCommand command)
+        [HttpPut("approve")]
+        public async Task<IActionResult> Approve([FromBody] ApproveRevokeDeviceCommand command)
         {
             await _commandDispatcher.Dispatch(command, new CancellationToken());
+
+            return Ok();
         }
     }
 }

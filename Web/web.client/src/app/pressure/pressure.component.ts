@@ -1,13 +1,8 @@
-import { Component, ContentChildren, OnInit } from '@angular/core';
-import { Chart } from 'chart.js/auto';
-import { HttpClient } from '@angular/common/http';
-import {formatDate} from '@angular/common';
-import {ReadingsService} from "../shared/services/readings.service";
-import {PressureReadings} from "../shared/interfaces/readings";
+import { Component, ContentChildren } from '@angular/core';
 import {DataPickerComponent} from "../shared/dynamic/data-picker/data-picker.component";
-import {DataForm} from "../shared/interfaces/data-form";
 import {ReadingType} from "../shared/reading-type";
-import {DetailLevel} from "../shared/detail-level";
+import {GraphType} from "../shared/graph-type";
+import {ChartComponentBaseDirective} from "../shared/directives/chart-component-base.directive";
 
 @ContentChildren(DataPickerComponent)
 @Component({
@@ -15,49 +10,8 @@ import {DetailLevel} from "../shared/detail-level";
   templateUrl: './pressure.component.html',
   styleUrl: './pressure.component.css'
 })
-export class PressureComponent {
-
-  private readings: PressureReadings[] = [];
-  public chart: any;
-
-  constructor(private readingsService: ReadingsService) {
-  }
-
-
-  getReadings(event: DataForm) {
-    this.readingsService.getReadings(
-      ReadingType[ReadingType.Climate],
-      event.device,
-      event.startDate,
-      event.endDate,
-      event.selectedDetail).subscribe(
-      (result) => {
-        this.readings = result;
-        if(this.chart != undefined){
-          this.chart.destroy();
-
-        }
-        this.chart = new Chart(
-          "chart",
-          {
-            type: 'line',
-            data: {
-              xLabels: this.readings.map(x => formatDate(x.readDate, 'yyyy-MM-dd hh-mm-ss', 'en-US')),
-              datasets: [
-                {
-                  label: 'Pressure',
-                  data: this.readings.map(x => x.pressure)
-                }
-              ]
-            }
-          }
-        );
-      },
-      (error) => {
-        console.error(error);
-      }
-    );
-  }
-
+export class PressureComponent extends ChartComponentBaseDirective {
   protected readonly DataPickerComponent = DataPickerComponent;
+  protected readonly GraphType = GraphType;
+  protected readonly ReadingType = ReadingType;
 }

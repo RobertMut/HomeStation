@@ -1,2 +1,4 @@
-<canvas id="chart"></canvas>
-<app-data-picker (onSubmit)="getReadings($event)"/>
+<ng-container>
+  <canvas id="chart" appChartComponentBase></canvas>
+</ng-container>
+<app-data-picker (onSubmit)="getReadings($event, ReadingType.Climate, GraphType.Temperature)"/>

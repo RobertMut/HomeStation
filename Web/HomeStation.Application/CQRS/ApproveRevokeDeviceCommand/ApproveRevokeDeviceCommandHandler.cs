@@ -1,19 +1,20 @@
-﻿using HomeStation.Application.Common.Interfaces;
+﻿using HomeStation.Application.Common.Enums;
+using HomeStation.Application.Common.Interfaces;
 using HomeStation.Domain.Common.Entities;
 using HomeStation.Domain.Common.Interfaces;
 
-namespace HomeStation.Application.CQRS.ApproveDeviceCommand;
+namespace HomeStation.Application.CQRS.ApproveRevokeDeviceCommand;
 
-public class ApproveDeviceCommandHandler : ICommandHandler<ApproveDeviceCommand>
+public class ApproveRevokeDeviceCommandHandler : ICommandHandler<ApproveRevokeDeviceCommand>
 {
     private readonly IUnitOfWork _unitOfWork;
 
-    public ApproveDeviceCommandHandler(IUnitOfWork unitOfWork)
+    public ApproveRevokeDeviceCommandHandler(IUnitOfWork unitOfWork)
     {
         _unitOfWork = unitOfWork;
     }
     
-    public async Task Handle(ApproveDeviceCommand command, CancellationToken cancellationToken, string? identity = null)
+    public async Task Handle(ApproveRevokeDeviceCommand command, CancellationToken cancellationToken, string? identity = null)
     {
         using (_unitOfWork)
         {
@@ -24,7 +25,7 @@ public class ApproveDeviceCommandHandler : ICommandHandler<ApproveDeviceCommand>
                 throw new Exception("No device to approve.");
             }
 
-            device.IsKnown = true;
+            device.IsKnown = command.Operation == OperationType.Approve;
             
             _unitOfWork.DeviceRepository.UpdateAsync(device);
             await _unitOfWork.Save(cancellationToken);

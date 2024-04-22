@@ -1,9 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
-import {DetailLevel} from "../detail-level";
-import {TemperatureReadings} from "../interfaces/readings";
-import {ReadingType} from "../reading-type";
 
 const api = "/api/Air/";
 @Injectable({
