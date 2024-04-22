@@ -154,7 +154,7 @@ static void print_data(data_t* data){
 }
 
 static void pms_task(void *arg){
-    PMS3003* pms = new PMS3003(GPIO_NUM_17, GPIO_NUM_16, GPIO_NUM_27, GPIO_NUM_25);
+    PMS3003* pms = new PMS3003(GPIO_NUM_17, GPIO_NUM_16, GPIO_NUM_2, GPIO_NUM_4);
     while(1){
         pm_data_t* pms_data = pms->pms_uart_read();
         
@@ -215,15 +215,15 @@ extern "C" void app_main(void) {
     HD44780_t config;
     config.backlight = false;
     config.font = font_t::HD44780_FONT_5X8;
-    config.pins.rs = GPIO_NUM_12;
-    config.pins.d4 = GPIO_NUM_13;
-    config.pins.d5 = GPIO_NUM_5;
-    config.pins.d6 = GPIO_NUM_23;
-    config.pins.d7 = GPIO_NUM_19;
+    config.pins.rs = GPIO_NUM_19;
+    config.pins.d4 = GPIO_NUM_25;
+    config.pins.d5 = GPIO_NUM_15;
+    config.pins.d6 = GPIO_NUM_33;
+    config.pins.d7 = GPIO_NUM_13;
     config.pins.e = GPIO_NUM_18;
     config.write_cb = NULL;
 
-    wifi_manager* wifi = new wifi_manager("T-Mobile_Swiatlowod_7842", "07520856840587427072");
+    wifi_manager* wifi = new wifi_manager("", "");
     Bosch* bosch = new Bosch(GPIO_NUM_21, GPIO_NUM_22);
     lcd_handle = new HD44780();
     
