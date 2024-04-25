@@ -1,4 +1,7 @@
-﻿using HomeStation.Application.Common.Enums;
+﻿using System.Data.SqlTypes;
+using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
+using HomeStation.Application.Common.Enums;
 using HomeStation.Application.Common.Interfaces;
 using HomeStation.Application.Common.Options;
 using Microsoft.Data.SqlClient;
@@ -71,8 +74,6 @@ public class DatabaseHelper //todo refactor in future
             
             case DatabaseType.PostgreSql:
                 throw new NotImplementedException();
-                break;
-            
         }
     }
 
@@ -81,6 +82,21 @@ public class DatabaseHelper //todo refactor in future
         if (count == 0)
         {
             await dbContext.Database.MigrateAsync();
+
+            string sql = dbContext.Database.GenerateCreateScript();
+            sql = Regex.Replace(sql, @"(\r\n|\n\r|\n|\r)", "\n");
+            
+            var statements = Regex.Split(
+                sql,
+                @"^[\t ]*GO[\t ]*\d*[\t ]*(?:--.*)?$",
+                RegexOptions.Multiline |
+                RegexOptions.IgnorePatternWhitespace |
+                RegexOptions.IgnoreCase);
+
+            foreach (var statement in statements)
+            {
+                await dbContext.Database.ExecuteSqlAsync(FormattableStringFactory.Create(statement));
+            }
         }
     }
 }
