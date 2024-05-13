@@ -28,7 +28,6 @@ export class ChartComponentBaseDirective implements OnInit{
     this.chartElementRef = this.root.querySelector("#chart") as HTMLCanvasElement;
     }
 
-
   protected getReadings(event: DataForm, type: ReadingType, chartType: GraphType) {
     this.readingsService.getReadings(
       ReadingType[type],

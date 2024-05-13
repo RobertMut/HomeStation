@@ -1,4 +1,4 @@
-﻿namespace HomeStation.Application.CQRS.ReadingsQuery.GetReadingsQuery;
+﻿namespace HomeStation.Application.CQRS;
 
 public class ReadingsWebModel
 {

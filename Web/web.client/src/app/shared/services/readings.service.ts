@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
+import {Readings} from "../interfaces/readings";
 
 const api = "/api/Air/";
 @Injectable({
@@ -15,6 +16,9 @@ export class ReadingsService {
     return this.getResponse<any[]>(url);
   }
 
+  public getLatestReading(device: number) : Observable<Readings> {
+    return this.getResponse<Readings>(device.toString())
+  }
   private getResponse<Type>(url: string): Observable<Type>{
     return this.http.get<Type>(api + url);
   }

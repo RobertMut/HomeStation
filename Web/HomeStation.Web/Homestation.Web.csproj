@@ -14,11 +14,9 @@
     <SpaRoot>..\web.client\</SpaRoot>
     <SpaProxyLaunchCommand>npm run start</SpaProxyLaunchCommand>
     <SpaProxyServerUrl>https://localhost:5216</SpaProxyServerUrl>
-    <ApplicationInsightsResourceId>/subscriptions/95c4a1a5-1d80-4245-a3c6-55db0a34ceca/resourceGroups/rg-iot-swe-homestation_group/providers/microsoft.insights/components/rg-iot-swe-homestation</ApplicationInsightsResourceId>
   </PropertyGroup>
   
   <ItemGroup>
-    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.21.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.SpaProxy">
       <Version>8.*-*</Version>

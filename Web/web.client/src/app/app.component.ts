@@ -16,9 +16,10 @@ export class AppComponent implements OnInit{
 
   constructor(private router: Router) {
     this.links = [
-      { label: 'Temperature-Humidity', link: './temperature-humidity', index: 0 },
-      { label: 'Pressure', link: './pressure', index: 1 },
-      { label: 'AirQuality', link: './air-quality', index: 2 }
+      { label: 'Current', link: './current', index: 0 },
+      { label: 'Temperature and Humidity', link: './temperature-humidity', index: 1 },
+      { label: 'Pressure', link: './pressure', index: 2 },
+      { label: 'AirQuality', link: './air-quality', index: 3 }
     ];
   }
   ngOnInit(): void {

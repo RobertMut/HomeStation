@@ -88,6 +88,26 @@ public class Repository<TEntity> where TEntity : class
     }
 
     /// <summary>
+    /// Gets last single entity object by filter
+    /// </summary>
+    /// <param name="filter">Expression filter</param>
+    /// <param name="cancellationToken">CancellationToken</param>
+    /// <returns>Entity</returns>
+    public virtual async Task<TEntity?> GetLastBy(Func<TEntity?, bool> func,
+        Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null,
+        CancellationToken cancellationToken = default)
+    {
+        IQueryable<TEntity> query = _dbSet.AsQueryable();
+
+        if (include != null)
+        {
+            query = include(query);
+        }
+        
+        return query.LastOrDefault(func);
+    }
+    
+    /// <summary>
     /// Inserts to dbset
     /// </summary>
     /// <param name="entity">Entity to be insterted</param>

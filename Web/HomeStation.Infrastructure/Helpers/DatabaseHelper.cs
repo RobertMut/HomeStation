@@ -15,11 +15,11 @@ public class DatabaseHelper //todo refactor in future
 {
     private const string MySqlCheck = @"SELECT count(*)
                                     FROM information_schema.tables
-                                    WHERE table_name LIKE '%Climate%'";
+                                    WHERE table_name LIKE '%Climate%' OR table_name LIKE '%Devices%'";
 
-    private const string SqlServerCheck = @"SELECT IIF(COUNT(TABLE_NAME) = 0, 0, 1)
+    private const string SqlServerCheck = @"SELECT COUNT(TABLE_NAME)
                                             FROM   INFORMATION_SCHEMA.TABLES
-                                            WHERE  TABLE_NAME LIKE '%Climate%'";
+                                            WHERE  TABLE_NAME LIKE '%Climate%' OR TABLE_NAME LIKE '%Devices%'";
     
     public static async Task InitDatabase(DatabaseOptions options, IServiceCollection serviceCollection)
     {

@@ -15,7 +15,12 @@ public class SaveReadingsCommandHandler : ICommandHandler<SaveReadingsCommand>
         _unitOfWork = unitOfWork;
     }
     public async Task Handle(SaveReadingsCommand command, CancellationToken cancellationToken, string? clientId = null)
-    {     
+    {
+        if (command.Pressure == 0)
+        {
+            throw new Exception("Invalid readings. Pressure cannot be 0");
+        }
+        
         using (_unitOfWork)
         {
             Device? device = await _unitOfWork.DeviceRepository.GetObjectBy(x => x.Name == clientId, cancellationToken: cancellationToken);

@@ -17,6 +17,11 @@ public class GetReadingsQueryHandler : IQueryHandler<GetReadingsQuery, IEnumerab
 
     public async Task<IEnumerable<ReadingsWebModel>?> Handle(GetReadingsQuery query, CancellationToken cancellationToken)
     {
+        if (query.StartDate == query.EndDate)
+        {
+            query.EndDate = query.EndDate.AddDays(1).AddTicks(-1);
+        }
+        
         Device? device = await GetData(query, cancellationToken);
         
         if (device == null)

@@ -1,7 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA, Component } from '@angular/core';
 import { Device} from "../../interfaces/device";
-import { DataForm} from "../../interfaces/data-form";
-import { HttpClient } from '@angular/common/http';
 import { DeviceQuery} from "../../interfaces/device-query";
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
