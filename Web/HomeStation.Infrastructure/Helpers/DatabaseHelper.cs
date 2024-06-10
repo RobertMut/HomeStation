@@ -17,7 +17,7 @@ public class DatabaseHelper //todo refactor in future
                                     FROM information_schema.tables
                                     WHERE table_name LIKE '%Climate%' OR table_name LIKE '%Devices%'";
 
-    private const string SqlServerCheck = @"SELECT COUNT(TABLE_NAME)
+    private const string SqlServerCheck = @"SELECT COUNT(*)
                                             FROM   INFORMATION_SCHEMA.TABLES
                                             WHERE  TABLE_NAME LIKE '%Climate%' OR TABLE_NAME LIKE '%Devices%'";
     

@@ -4,6 +4,7 @@ using HomeStation.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,13 +12,15 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HomeStation.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(AirDbContext))]
-    partial class AirDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240320125417_AddDeviceApproval")]
+    partial class AddDeviceApproval
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.0")
+                .HasAnnotation("ProductVersion", "8.0.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -108,6 +111,15 @@ namespace HomeStation.Infrastructure.Persistence.Migrations
                             b1.Property<DateTimeOffset>("Date")
                                 .HasColumnType("datetimeoffset");
 
+                            b1.Property<int>("Day")
+                                .HasColumnType("int");
+
+                            b1.Property<int>("Month")
+                                .HasColumnType("int");
+
+                            b1.Property<int>("Week")
+                                .HasColumnType("int");
+
                             b1.HasKey("ClimateId");
 
                             b1.ToTable("Climate");
@@ -137,6 +149,15 @@ namespace HomeStation.Infrastructure.Persistence.Migrations
 
                             b1.Property<DateTimeOffset>("Date")
                                 .HasColumnType("datetimeoffset");
+
+                            b1.Property<int>("Day")
+                                .HasColumnType("int");
+
+                            b1.Property<int>("Month")
+                                .HasColumnType("int");
+
+                            b1.Property<int>("Week")
+                                .HasColumnType("int");
 
                             b1.HasKey("QualityId");
 

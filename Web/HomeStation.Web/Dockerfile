@@ -16,12 +16,9 @@ RUN npm install -g @angular/cli
 FROM base AS publish
 COPY . "/app/src"
 WORKDIR "/app/src"
-RUN ls -la ./HomeStation.Web
 ARG BUILD_CONFIGURATION=Release
 RUN dotnet restore
 RUN dotnet publish ./HomeStation.Web/HomeStation.Web.csproj -c $BUILD_CONFIGURATION -o /app/publish --no-restore
-RUN ls -la /app
-RUN ls -la /app/publish
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR "/app"

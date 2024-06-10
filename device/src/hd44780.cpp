@@ -11,9 +11,9 @@
 
 #define BV(x) (1 << (x))
 
-#define DELAY_CMD_LONG  (3 * MS) // >1.53ms according to datasheet
-#define DELAY_CMD_SHORT (60)     // >39us according to datasheet
-#define DELAY_TOGGLE    (1)      // E cycle time >= 1μs, E pulse width >= 450ns, Data set-up time >= 195ns
+#define DELAY_CMD_LONG  (3 * MS)
+#define DELAY_CMD_SHORT (60)
+#define DELAY_TOGGLE    (1)
 #define DELAY_INIT      (5 * MS)
 
 #define init_delay()   do { ets_delay_us(DELAY_INIT); } while (0)
