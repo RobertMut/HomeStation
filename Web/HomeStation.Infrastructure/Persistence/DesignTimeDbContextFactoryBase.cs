@@ -70,7 +70,7 @@ public abstract class DesignTimeDbContextFactoryBase<TContext> : IDesignTimeDbCo
 
         var optionsBuilder = new DbContextOptionsBuilder<TContext>();
         
-        switch (_databaseOptions.DatabaseType)
+        switch (_databaseOptions?.DatabaseType)
         {
             case DatabaseType.SqlServer:
                 optionsBuilder.UseSqlServer(connectionString);

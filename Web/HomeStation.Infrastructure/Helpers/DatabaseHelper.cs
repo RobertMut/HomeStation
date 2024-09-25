@@ -11,6 +11,9 @@ using MySqlConnector;
 
 namespace HomeStation.Infrastructure.Helpers;
 
+/// <summary>
+/// The database helper class
+/// </summary>
 public class DatabaseHelper //todo refactor in future
 {
     private const string MySqlCheck = @"SELECT count(*)
@@ -21,6 +24,12 @@ public class DatabaseHelper //todo refactor in future
                                             FROM   INFORMATION_SCHEMA.TABLES
                                             WHERE  TABLE_NAME LIKE '%Climate%' OR TABLE_NAME LIKE '%Devices%'";
     
+    /// <summary>
+    /// Inits new database if doesn't exist
+    /// </summary>
+    /// <param name="options">The <see cref="DatabaseOptions"/></param>
+    /// <param name="serviceCollection">The <see cref="IServiceCollection"/></param>
+    /// <exception cref="NotImplementedException">If PostgreSql, not supported for now</exception>
     public static async Task InitDatabase(DatabaseOptions options, IServiceCollection serviceCollection)
     {
         int count = 0;
@@ -73,10 +82,15 @@ public class DatabaseHelper //todo refactor in future
                 break;
             
             case DatabaseType.PostgreSql:
-                throw new NotImplementedException();
+                throw new NotImplementedException("Currently not supported");
         }
     }
 
+    /// <summary>
+    /// Migrates database if table known count is 0
+    /// </summary>
+    /// <param name="count">The known table count</param>
+    /// <param name="dbContext">The <see cref="IAirDbContext"/></param>
     private static async Task Migrate(int count, IAirDbContext dbContext)
     {
         if (count == 0)

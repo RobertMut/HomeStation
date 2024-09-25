@@ -4,10 +4,20 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HomeStation.Infrastructure.Persistence;
 
+/// <summary>
+/// The Db context class
+/// </summary>
 public class AirDbContext : DbContext, IAirDbContext
 {
+    /// <summary>
+    /// Initializes new AirDbContext
+    /// </summary>
+    /// <param name="options">The <see cref="DbContextOptions"/>.</param>
     public AirDbContext(DbContextOptions options) : base(options) { }
 
+    /// <summary>
+    /// Initializes new AirDbContext
+    /// </summary>
     public AirDbContext() : base() {}
     
     /// <summary>
@@ -25,6 +35,7 @@ public class AirDbContext : DbContext, IAirDbContext
     /// </summary>
     public DbSet<Device> Devices { get; set; }
     
+    /// <inheritdoc cref="DbContext.OnModelCreating"/>
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Climate>().OwnsOne(x => x.Reading);

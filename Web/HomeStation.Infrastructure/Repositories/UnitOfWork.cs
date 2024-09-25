@@ -4,6 +4,9 @@ using HomeStation.Domain.Common.Entities;
 
 namespace HomeStation.Infrastructure.Repositories;
 
+/// <summary>
+/// The unit of work class
+/// </summary>
 public class UnitOfWork : IUnitOfWork, IDisposable
 {
     private IAirDbContext _dbContext;
@@ -13,6 +16,10 @@ public class UnitOfWork : IUnitOfWork, IDisposable
 
     private bool disposedValue = false;
 
+    /// <summary>
+    /// Initializes a new Unit of work
+    /// </summary>
+    /// <param name="dbContext">The <see cref="IAirDbContext"/></param>
     public UnitOfWork(IAirDbContext dbContext)
     {
         _dbContext = dbContext;

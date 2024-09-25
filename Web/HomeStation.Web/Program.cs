@@ -1,6 +1,7 @@
 using HomeStation.Application;
 using HomeStation.Application.Common.Options;
 using HomeStation.Infrastructure;
+using HomeStation.Middleware;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Options;
 using MQTTnet.AspNetCore;
@@ -19,6 +20,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.Configure<DatabaseOptions>(builder.Configuration.GetSection(DatabaseOptions.Database));
 builder.Services.Configure<MQTTOptions>(builder.Configuration.GetSection(MQTTOptions.MQTT));
 
+builder.Services.AddExceptionHandler<ApiExceptionHandler>();
 await builder.Services.AddInfrastructure();
 builder.Services.AddApplication();
 

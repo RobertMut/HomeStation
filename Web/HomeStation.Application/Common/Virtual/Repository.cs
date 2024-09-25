@@ -5,11 +5,19 @@ using Microsoft.EntityFrameworkCore.Query;
 
 namespace HomeStation.Application.Common.Virtual;
 
+/// <summary>
+/// The repository class
+/// </summary>
+/// <typeparam name="TEntity"></typeparam>
 public class Repository<TEntity> where TEntity : class
 {
     private IAirDbContext _dbContext;
     private DbSet<TEntity> _dbSet;
     
+    /// <summary>
+    /// Initializes new Repository
+    /// </summary>
+    /// <param name="dbContext">The <see cref="IAirDbContext"/></param>
     public Repository(IAirDbContext dbContext)
     {
         _dbContext = dbContext;
