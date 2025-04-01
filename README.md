@@ -1,3 +1,6 @@
+# Links
+I've expanded this engineer's thesis - [here](https://github.com/RobertMut/HomeStation2)
+
 # Summary
 The work concentrates on the creation of a device with management system for
 measurement of environmental parameters, utilising programming languages, such as 
